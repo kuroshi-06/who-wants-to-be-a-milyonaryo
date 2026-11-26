@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Who Want to Be a Literary Millionaire</title>
+<style>
+:root{--gold:#f5c542;--gold2:#b8860b;--navy:#050a3a;--blue:#1a2a9c;--ok:#1fa845;--bad:#d62828;--sel:#f08a00;--txt:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:radial-gradient(ellipse at center,#16219a 0%,#070d52 55%,#02041f 100%);color:var(--txt);font-family:Georgia,'Times New Roman',serif;overflow:hidden}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.screen.on{display:flex}
+.rays{position:absolute;width:160vmax;height:160vmax;background:repeating-conic-gradient(rgba(255,255,255,.07) 0 6deg,transparent 6deg 18deg);animation:spin 40s linear infinite;z-index:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.logo2{position:relative;z-index:1;width:min(330px,72vw);filter:drop-shadow(0 0 30px #4a62ff);animation:pop 1.6s cubic-bezier(.2,1.4,.4,1) both}
+.logo{position:relative;z-index:1;width:min(300px,62vw);aspect-ratio:1;border-radius:50%;border:6px solid #9fb0f0;background:radial-gradient(circle,#2c3fd6,#0a1070 70%);box-shadow:0 0 50px #4a62ff,inset 0 0 40px #000;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:pop 1.6s cubic-bezier(.2,1.4,.4,1) both}
+.logo small{letter-spacing:4px;font-size:clamp(11px,3vw,15px);color:#cfd6ff}
+.logo b{font-size:clamp(20px,6vw,32px);line-height:1.1;text-transform:uppercase;color:var(--gold);text-shadow:0 0 12px #000;padding:0 14px}
+.logo i{font-size:clamp(28px,9vw,46px);font-style:normal;color:#fff}
+@keyframes pop{0%{transform:scale(0) rotate(-360deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.btn{position:relative;z-index:1;cursor:pointer;font:700 clamp(16px,4.5vw,22px) Georgia,serif;letter-spacing:3px;text-transform:uppercase;color:#fff;text-shadow:0 2px 3px #000a;background:linear-gradient(#5b86ff,#2745cf 50%,#0c1c94);border:3px solid #c9d3ff;border-radius:40px;padding:14px 46px;box-shadow:0 0 22px rgba(90,125,255,.8);margin-top:28px}
+.btn:hover{filter:brightness(1.12)}
+#startBtn{animation:fade .8s 3.2s both}
+.tag{position:relative;z-index:1;margin-top:22px;color:#cfd6ff;animation:fade .8s 2.2s both;letter-spacing:2px}
+.skip{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;z-index:2}
+#mute{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;z-index:9;background:#0008;border:1px solid #9fb0f0;color:var(--gold);border-radius:20px;padding:6px 12px;cursor:pointer;font-size:14px}
+h2{position:relative;z-index:1;color:var(--gold);letter-spacing:4px;text-transform:uppercase;margin:0 0 18px;font-size:clamp(18px,5vw,28px)}
+.ladder{position:relative;z-index:1;width:min(460px,92vw);display:flex;flex-direction:column;gap:10px}
+.ladder div{display:flex;justify-content:space-between;padding:12px 20px;border:2px solid #9fb0f0;border-radius:30px;background:linear-gradient(#0b1580,#050a3a);font-weight:700;font-size:clamp(16px,4.6vw,22px);animation:fade .6s both}
+.ladder div span:first-child{color:#9fb0ff}.ladder div span:last-child{color:var(--gold)}
+.ladder div:last-child{background:linear-gradient(#5b86ff,#1a2fb0);color:#fff}
+.ladder div:last-child span{color:#fff!important}
+#game{justify-content:flex-start;padding-top:calc(env(safe-area-inset-top,0px) + 54px)}
+.top{position:relative;z-index:1;display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:6px;flex-wrap:wrap}
+.pill{border:2px solid #9fb0f0;border-radius:30px;padding:6px 18px;background:#050a3a;color:var(--gold);font-weight:700}
+.pill.n{color:#fff}
+.steps{position:relative;z-index:1;display:flex;gap:6px;margin:8px 0 14px}
+.steps i{width:46px;height:8px;border-radius:5px;background:#26308a}.steps i.cur{background:#8fb0ff;box-shadow:0 0 10px #5b86ff}.steps i.done{background:var(--ok)}
+.ans{position:relative;z-index:1;width:min(900px,96vw);display:grid;grid-template-columns:1fr 1fr;gap:12px 18px}
+@media(max-width:560px){.ans{grid-template-columns:1fr}}
+.a:disabled{cursor:default}
+.big{position:relative;z-index:1;font-size:clamp(34px,10vw,64px);color:var(--gold);text-shadow:0 0 20px #f5c542aa;margin:6px 0}
+.msg{position:relative;z-index:1;font-size:clamp(16px,4.5vw,22px);max-width:520px;color:#dfe4ff}
+.files{position:relative;z-index:1;width:min(520px,94vw);display:flex;flex-direction:column;gap:10px;text-align:left}.files label{display:flex;flex-direction:column;gap:4px;color:var(--gold);font-weight:700;font-size:15px}.files label span{color:#9fb0ff;font-weight:400;font-size:13px}.files input{color:#fff;background:#0a1070;border:1px solid #9fb0f0;border-radius:10px;padding:8px;font-size:14px;width:100%}
+.q,.a{position:relative;z-index:1;font-family:'Trebuchet MS','Segoe UI',Arial,sans-serif;font-weight:600;color:#fff;text-shadow:0 2px 3px #000b;background:linear-gradient(#fff,#8f9bd6 40%,#e8ecff 60%,#6d78c0);animation:fade .6s both}
+.q::before,.a::before{content:"";position:absolute;inset:3px;z-index:-1;clip-path:inherit;background:linear-gradient(#2e5cf0,#0b1fa0 48%,#050f6e 52%,#030a55)}
+.q{width:min(900px,96vw);padding:28px 80px;font-size:clamp(16px,4vw,27px);line-height:1.35;margin-bottom:18px;clip-path:polygon(44px 0,calc(100% - 44px) 0,100% 50%,calc(100% - 44px) 100%,44px 100%,0 50%)}
+.a{cursor:pointer;display:flex;align-items:center;gap:8px;text-align:left;border:0;padding:15px 44px;font-size:clamp(15px,3.6vw,22px);clip-path:polygon(28px 0,calc(100% - 28px) 0,100% 50%,calc(100% - 28px) 100%,28px 100%,0 50%)}
+.a::after{content:"◆";order:-1;font-size:.5em;color:#fff;margin-right:2px}
+.a b{color:#f5a623;font-weight:700}
+.a:hover:not(:disabled)::before{background:linear-gradient(#6a90ff,#2745cf 48%,#0c1c94)}
+.a:disabled{cursor:default}
+.a.sel::before{background:linear-gradient(#ffc169,#f08a00 50%,#b86000)}
+.a.ok::before{background:linear-gradient(#52e883,#12a83a 50%,#0a7a27);animation:blink .4s 5}
+.a.bad::before{background:linear-gradient(#ff6b6b,#d62828 50%,#8f1313)}
+.a.sel b,.a.ok b,.a.bad b{color:#fff}
+@keyframes blink{50%{filter:brightness(.55)}}
+</style></head><body>
+<button id="mute">🔊 Sound on</button>
+
+<section class="screen on" id="vid" style="background:#000;padding:0">
+  <video id="introVid" playsinline style="width:100%;height:100%;object-fit:contain"></video>
+  <button class="btn" id="tapBtn" style="display:none;position:absolute;margin:0">▶ Tap to play intro</button>
+  <button class="btn skip" id="skipVid" style="margin:0;padding:8px 22px;font-size:14px">Skip</button>
+</section>
+
+<section class="screen" id="intro">
+  <div class="rays"></div>
+  <svg class="logo2" viewBox="0 0 300 300" role="img" aria-label="Who Want to Be a Literary Millionaire">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#2b1b8f"/><stop offset="1" stop-color="#0a0a3a"/></radialGradient>
+    <radialGradient id="in" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#3a66ff"/><stop offset="1" stop-color="#0a1070"/></radialGradient>
+    <linearGradient id="bn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a66ff"/><stop offset=".5" stop-color="#0b1fa0"/><stop offset="1" stop-color="#050f6e"/></linearGradient>
+    <path id="top" d="M44,150 A106,106 0 0 1 256,150"/>
+    <path id="bot" d="M28,150 A122,122 0 0 0 272,150"/>
+  </defs>
+  <circle cx="150" cy="150" r="146" fill="url(#bg)" stroke="#c9d3ff" stroke-width="4"/>
+  <circle cx="150" cy="150" r="132" fill="none" stroke="#5b86ff" stroke-width="2"/>
+  <circle cx="150" cy="150" r="92" fill="url(#in)" stroke="#8fa0e8" stroke-width="3"/>
+  <g stroke="#8fa0e8" stroke-width="1.5">
+    <path d="M150 104 Q118 90 86 100 V146 Q118 138 150 150 Z" fill="#e8ecff"/>
+    <path d="M150 104 Q182 90 214 100 V146 Q182 138 150 150 Z" fill="#cfd8ff"/>
+  </g>
+  <path d="M104 112 Q120 108 136 114 M104 124 Q120 120 136 126 M164 114 Q180 108 196 112 M164 126 Q180 120 196 124" stroke="#6d78c0" stroke-width="2" fill="none"/>
+  <path d="M200 58 Q238 52 222 96 Q202 112 172 128 Q178 92 200 58Z" fill="#fff" stroke="#8fa0e8" stroke-width="1.5"/>
+  <path d="M172 128 L158 144" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="18" y="122" width="264" height="58" rx="6" fill="url(#bn)" stroke="#c9d3ff" stroke-width="2.5"/>
+  <text x="150" y="143" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="15" letter-spacing="7" fill="#fff">LITERARY</text>
+  <text x="150" y="172" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="28" letter-spacing="1" fill="#fff">MILLIONAIRE</text>
+  <text font-family="Georgia,serif" font-weight="700" font-size="17" letter-spacing="3" fill="#fff"><textPath href="#top" startOffset="50%" text-anchor="middle">WHO WANT TO BE A</textPath></text>
+  <text font-family="Georgia,serif" font-weight="700" font-size="15" letter-spacing="4" fill="#cfd8ff"><textPath href="#bot" startOffset="50%" text-anchor="middle">★ PESO EDITION ★</textPath></text>
+</svg>
+  <div class="tag">The ultimate quiz challenge</div>
+  <button class="btn" id="startBtn">Start</button>
+</section>
+
+<section class="screen" id="prizes">
+  <div class="rays"></div>
+  <h2>Prize Money</h2>
+  <div class="ladder" id="ladder"></div>
+  <button class="btn" id="nextBtn">Next</button>
+</section>
+
+<section class="screen" id="game">
+  <div class="rays"></div>
+  <div class="top"><div class="pill n" id="qn"></div><div class="pill" id="qp"></div></div>
+  <div class="steps" id="steps"></div>
+  <div class="q" id="qtext"></div>
+  <div class="ans" id="ans"></div>
+</section>
+
+<section class="screen" id="end">
+  <div class="rays"></div>
+  <h2 id="endTitle"></h2>
+  <div class="big" id="endAmt"></div>
+  <p class="msg" id="endMsg"></p>
+  <button class="btn" id="again">Play again</button>
+</section>
+
+<script>
+const PRIZES=[250000,500000,750000,1000000];
+const peso=n=>'₱'+n.toLocaleString('en-US');
+const QS=[
+ {q:"Which active volcano in Batangas sits on an island inside a lake?",o:["Mayon","Taal","Pinatubo","Bulusan"],a:1},
+ {q:"Who wrote the novel “Noli Me Tangere”?",o:["Andres Bonifacio","Apolinario Mabini","José Rizal","Marcelo H. del Pilar"],a:2},
+ {q:"Approximately how many islands make up the Philippines?",o:["3,107","5,248","7,641","9,020"],a:2},
+ {q:"Who became the first President of the Philippines in 1899?",o:["Manuel Quezon","Emilio Aguinaldo","Sergio Osmeña","Ramon Magsaysay"],a:1}
+];
+const $=id=>document.getElementById(id);
+const KEYS=['video','bgm','start','question','lock','correct','wrong','win'];
+const media={};KEYS.forEach(k=>media[k]='media/'+(k==='video'?'intro.mp4':k+'.mp3'));let cur=0,muted=false,bgmEl=null,locked=true,timers=[],active=[];
+const later=(f,ms)=>timers.push(setTimeout(f,ms));
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+
+/* ---------- your own sounds only (no built-in audio) ---------- */
+function play(k,loop){if(!media[k]||muted)return null;const a=new Audio(media[k]);a.loop=!!loop;a.play().catch(()=>{});active.push(a);return a}
+function playWait(k,cb,min){ // play sound, continue when it ends (or after min ms if no file)
+  const t0=Date.now();let done=false;
+  const fin=()=>{if(done)return;done=true;later(cb,Math.max(0,min-(Date.now()-t0)))};
+  const a=play(k);
+  if(!a){fin();return}
+  a.onended=fin;a.onerror=fin;later(fin,30000);
+}
+function startMusic(){stopMusic();bgmEl=play('bgm',true)}
+function stopMusic(){if(bgmEl){bgmEl.pause();bgmEl=null}}
+function stopAll(){stopMusic();active.forEach(a=>a.pause());active=[]}
+$('mute').onclick=()=>{muted=!muted;$('mute').textContent=muted?'🔇 Sound off':'🔊 Sound on';
+  if(muted)stopAll();else if($('game').classList.contains('on')&&!locked)startMusic()};
+
+/* ---------- media loading + intro video ---------- */
+function toIntro(){$('introVid').pause();show('intro')}
+function startIntro(){const v=$('introVid');v.src=media.video;v.onended=toIntro;v.onerror=toIntro;
+  const p=v.play();if(p)p.catch(()=>{$('tapBtn').style.display='block'})}
+$('tapBtn').onclick=()=>{$('tapBtn').style.display='none';$('introVid').play().catch(toIntro)};
+startIntro();
+$('skipVid').onclick=toIntro;
+
+/* ---------- game flow ---------- */
+function showPrizes(){
+  $('ladder').innerHTML=PRIZES.map((p,i)=>`<div style="animation-delay:${.3+i*.45}s"><span>Question ${i+1}</span><span>${peso(p)}</span></div>`).join('');
+  show('prizes')}
+$('startBtn').onclick=()=>{play('start');showPrizes()};
+$('nextBtn').onclick=()=>{cur=0;show('game');loadQ()};
+function loadQ(){
+  locked=true;stopMusic();const Q=QS[cur];
+  $('qn').textContent='Question '+(cur+1)+' of '+QS.length;$('qp').textContent=peso(PRIZES[cur]);
+  $('steps').innerHTML=QS.map((_,i)=>`<i class="${i<cur?'done':i==cur?'cur':''}"></i>`).join('');
+  $('qtext').style.visibility='hidden';$('qtext').textContent='';$('ans').innerHTML='';
+  // 1) play the "question display" sound first, 2) then show the question + choices and start the music
+  playWait('question',()=>{
+    $('qtext').textContent=Q.q;$('qtext').style.visibility='visible';
+    $('qtext').style.animation='none';void $('qtext').offsetWidth;$('qtext').style.animation='';
+    $('ans').innerHTML=Q.o.map((t,i)=>`<button class="a" style="animation-delay:${.3+i*.25}s" disabled data-i="${i}"><b>${'ABCD'[i]}:</b> ${t}</button>`).join('');
+    document.querySelectorAll('.a').forEach(b=>b.onclick=()=>pick(+b.dataset.i,b));
+    startMusic();
+    later(()=>{document.querySelectorAll('.a').forEach(b=>b.disabled=false);locked=false},1400);
+  },800);
+}
+function pick(i,btn){
+  if(locked)return;locked=true;
+  document.querySelectorAll('.a').forEach(b=>b.disabled=true);
+  btn.classList.add('sel');play('lock');
+  later(()=>{
+    const right=QS[cur].a,btns=document.querySelectorAll('.a');
+    btn.classList.remove('sel');stopMusic();
+    if(i===right){btn.classList.add('ok');
+      playWait('correct',()=>{cur++;if(cur<QS.length)loadQ();else finish(true)},2500)}
+    else{btn.classList.add('bad');btns[right].classList.add('ok');
+      playWait('wrong',()=>finish(false),2800)}
+  },2400);
+}
+function finish(won){
+  stopAll();show('end');
+  if(won){play('win');$('endTitle').textContent='Congratulations!';$('endAmt').textContent=peso(1000000);
+    $('endMsg').textContent='You answered all 4 questions and are now a MILLIONAIRE!'}
+  else{$('endTitle').textContent='Game Over';
+    const w=cur>0?PRIZES[cur-1]:0;$('endAmt').textContent=peso(w);
+    $('endMsg').textContent=w?'Wrong answer! You walk away with the prize you reached.':'Wrong answer! Better luck next time.'}
+}
+$('again').onclick=()=>{timers.forEach(clearTimeout);timers=[];stopAll();cur=0;showPrizes()};
+</script>
+</body></html>
